@@ -37,8 +37,21 @@ class galery
 		$comments = Comments_model::get_photo_comments($photo_id);
 		$likes = Likes_model::get_photo_likes($photo_id);
 		$like = Likes_model::get_user_like($photo_id, $_SESSION['id']);
+		$color = $_SESSION['id'] == $photo_user_id ? "#f3558e" : "#7dce94";
 		include('views/photo_view.php');
 		include('views/footer_view.php');
+	}
+
+	public function del_photo()
+	{
+		global $base_url;
+
+		if ($_POST['submit'])
+		{
+			$photo_id = $_POST['photo_id'];
+			Photos_model::del_base_photo($photo_id);
+			header('Location: '.$base_url.'galery');
+		}
 	}
 }
 

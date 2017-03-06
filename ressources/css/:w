@@ -120,7 +120,6 @@ img {
 
 #camera {
 	position: relative;
-	display: inline-flex;
 }
 
 #video {
@@ -147,7 +146,7 @@ img {
 
 #comment {
 	overflow: auto;
-	padding:1%;
+	padding:0.5%;
 	font-size: 1.5vmax;
 }
 

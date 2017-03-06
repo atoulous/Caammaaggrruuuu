@@ -72,7 +72,7 @@ Class Photos_model
 		global $DB_NAME;
 
 		require('config/mysql_connect.php');
-		$sql = $pdo->prepare("DELETE FROM $DB_NAME.photos WHERE 'photos.id' = '$id'");
+		$sql = $pdo->prepare("DELETE FROM $DB_NAME.photos WHERE id = '$id'");
 		try {
 			$sql->execute();
 			return (TRUE);

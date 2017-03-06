@@ -1,4 +1,4 @@
-<div id="container">
+<div id="container" style="text-align:center">
 	<div id="camera">
 		<video id="video"></video>
 		<canvas id="canvas"></canvas>

@@ -1,23 +1,32 @@
 <div id="container" style="text-align:center">
-<h3>Photo de <?=$photo_user_login?></h3>
+<h3>Photo de <a style="color:<?=$color?>" href=<?=$base_url.'user/list_users'?>><?=$photo_user_login?></a></h3>
 <?php
 	$name = $photo['name'];
 	$img = base64_encode(file_get_contents("ressources/photos/$name.png"));
 	$date = $photo['date'];
-	echo 'Publiée le '.$date.'</br>
-		<img src="data:image/png;base64,'.$img.'"></br>
+	if ($photo['user_id'] == $_SESSION['id'] || $_SESSION['admin'])
+	{
+		echo '<div id="del_photo" style="display:ruby-text-container">
+		Publiée le '.$date.'
+		<form id="form_delphoto" action="'.$base_url.'galery/del_photo" method="post">
+		<input type="hidden" name="photo_id" value="'.$photo['id'].'"/>
+		<input type="submit" id="submit_delcom" name="submit" title="Supprimer la photo" value="X"/>
+		</form></div></br>';
+	}
+	else
+		echo 'Publiée le '.$date.'</br></br>';
+	echo '<img src="data:image/png;base64,'.$img.'"></br>
 		<span style="color:#4BB5C1">'.count($likes).' <3</span></br>';
 	foreach($likes as $lik) {
 		$usr = Users_model::get_user_infos($lik['user_id']);
 		echo '<span style="color:#4BB5C1">'.$usr['login'].' aime ça</span></br>';
 	}
-	if (!$like) {
-		?><form id="addlike" action="<?=$base_url?>like/add_like" method="post"><?
-	}
-	if ($like) {
-		?><form id="dellike" action="<?=$base_url?>like/del_like" method="post"><?
-	}
+	if (!$like)
+		$action = ''.$base_url.'like/add_like';
+	else
+		$action= ''.$base_url.'like/del_like';
 ?>
+	<form id="dellike" action="<?=$action?>" method="post">
 		<input type="hidden" name="photo_user_id" value="<?=$photo_user_id?>"/>
 		<input type="hidden" name="photo_id" value="<?=$photo_id?>"/>
 		<input type="hidden" name="like_id" value="<?=$like['id']?>"/>
@@ -31,6 +40,7 @@
 		$login_comment = $user_comment['login'];
 		$text = $com['text'];
 		$color = $login_comment == $_SESSION['login'] ? "#f3558e" : "#7dce94";
+		$date = $com['date'];
 		if ($user_comment['id'] == $_SESSION['id'] || $_SESSION['admin'])
 		{
 			echo '<div id="comment" style="display:ruby-text-container"><span style="font-weight:bold;color:'.$color.'">'.$login_comment.':</span> '.$text.'
@@ -38,10 +48,10 @@
 			<input type="hidden" name="id_comment" value="'.$com['id'].'"/>
 			<input type="hidden" name="photo_id" value="'.$photo['id'].'"/>
 			<input type="submit" id="submit_delcom" name="submit" title="Supprimer le commentaire" value="X"/>
-			</form></div></br>';
+			</form><span style="font-size:small"> le '.$date.'</span></div></br>';
 		}
 		else
-			echo "<div id='comment'><span style='font-weight:bold;color:$color'>$login_comment:</span> $text</div>";
+			echo "<div id='comment'><span style='font-weight:bold;color:$color'>$login_comment:</span> $text<span style='font-size:small'> le $date</span></div>";
 	}
 ?>
 	<form id="addcom" action="<?=$base_url?>comment/add_comment" method="post"></br>
