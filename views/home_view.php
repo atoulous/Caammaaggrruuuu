@@ -1,9 +1,12 @@
-<div class="container">
-	<video id="video" style="position:absolute"></video>
-	<canvas id="canvas" style="position:absolute;z-index:1;"></canvas>
-	</br></br></br></br></br></br></br></br></br></br></br></br></br><!--lol-->
-	<p><button id="startbutton">Prendre une photo</button>
-	<button id="deletebutton">Supprimer la photo</button>
-	<button id="publishbutton">Publier la photo</button></p>
+<div id="container">
+	<div id="camera">
+		<video id="video"></video>
+		<canvas id="canvas"></canvas>
+		<div id="button">
+			<button id="startbutton">Prendre une photo</button>
+			<button id="deletebutton">Supprimer la photo</button>
+			<button id="publishbutton">Publier la photo</button></p>
+		</div>
+	</div>
 	<script>WebCam();</script>
 </div>

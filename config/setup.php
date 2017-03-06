@@ -14,16 +14,31 @@ try {
 }
 echo "<script>console.log('db_camagru well created and now used');</script>";
 
-$sql = $pdo->prepare("CREATE TABLE users (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	login VARCHAR(255),
-	email VARCHAR(255),
-	pwd VARCHAR(255),
-	admin INT);
+$sql = $pdo->prepare("
+	CREATE TABLE users (
+		id INT PRIMARY KEY AUTO_INCREMENT,
+		login VARCHAR(255),
+		email VARCHAR(255),
+		pwd VARCHAR(255),
+		date DATETIME,
+		admin INT);
 	CREATE TABLE photos (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	name VARCHAR(255),
-	user_id INT)");
+		id INT PRIMARY KEY AUTO_INCREMENT,
+		name VARCHAR(255),
+		date DATETIME,
+		user_id INT);
+	CREATE TABLE likes (
+		id INT PRIMARY KEY AUTO_INCREMENT,
+		user_id INT,
+		photo_id INT,
+		photo_user_id INT);
+	CREATE TABLE comments (
+		id INT PRIMARY KEY AUTO_INCREMENT,
+		user_id INT,
+		photo_id INT,
+		photo_user_id INT,
+		date DATETIME,
+		text VARCHAR(255));");
 try {
 	$sql->execute();
 } catch (PDOException $Exception) {

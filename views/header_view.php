@@ -7,9 +7,16 @@
 	<script type="text/javascript" src="<?=$base_url?>views/webcam.js"></script>
 </head>
 <body>
-	<header>
-		<p>
-			<?echo($_SESSION['login'])?>
-			<a href="<?=$base_url?>login/logout">Se deconnecter</a>
-		</p>
-	</header>
+	<div id="header">
+	<h1><a style="color:#7dce94" href="<?=$base_url?>">Camagru</a></h1>
+		<div id="menu">
+			<a href="<?=$base_url?>">Accueil</a>
+			<a href="<?=$base_url?>galery">Galerie</a>
+			<a href="<?=$base_url?>user/list_users">Communauté</a>
+		</div>
+		<div id="account">
+			<span style="color:#f3558e"><?echo($_SESSION['login'])?></span>
+			<a style="font-size:1vw" href="<?=$base_url?>user/user_infos">Mon compte</a>
+			<a style="font-size:1vw" href="<?=$base_url?>user/logout">Se deconnecter</a>
+		</div>
+	</div>

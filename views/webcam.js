@@ -3,10 +3,10 @@ function WebCam() {
 		video = document.querySelector('#video'),
 		cover = document.querySelector('#cover'),
 		canvas = document.querySelector('#canvas'),
-		photo = document.querySelector('#photo'),
 		startbutton = document.querySelector('#startbutton'),
-		width = 320,
-		height = 0;
+		width = 400,
+		height = false,
+		photo = false;
 
 	navigator.getMedia = (navigator.getUserMedia ||
 		navigator.webkitGetUserMedia ||
@@ -32,7 +32,7 @@ function WebCam() {
 	}
 	);
 
-	video.addEventListener('canplay', function(ev) {
+	video.addEventListener('canplay', function() {
 		if (!streaming) {
 			height = video.videoHeight / (video.videoWidth/width);
 			video.setAttribute('width', width);
@@ -47,40 +47,35 @@ function WebCam() {
 		canvas.width = width;
 		canvas.height = height;
 		canvas.getContext('2d').drawImage(video, 0, 0, width, height);
-		var data = canvas.toDataURL('image/png');
-		photo.setAttribute('src', data);
+		photo = canvas.toDataURL('image/png');
 	}
 
 	function deletepicture() {
 		var canvas = document.getElementById("canvas");
 		var ctx = canvas.getContext("2d");
+		photo = false;
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 	}
 
-	function publishpicture() {
-		var photo = document.getElementById("canvas");
-		fetch('toto.pnj')
-		.then(function(response) {
-			return response.blob();
-		})
-		.then(function(myBlob) {
-			var objectURL = URL.createObjectURL(myBlob);
-			myImage.src = objectURL;
-		});
+	function publishphoto() {
+		var data = new FormData();
+		data.append("img", photo);
+		var myInit = {method: 'POST', body: data, credentials: 'same-origin'};
+		fetch("home/add_photo", myInit);
 	}
 
 	startbutton.addEventListener('click', function(ev) {
 		takepicture();
 		ev.preventDefault();
 	}, false);
-	
+
 	deletebutton.addEventListener('click', function(ev) {
 		deletepicture();
 		ev.preventDefault();
 	}, false);
 
 	publishbutton.addEventListener('click', function(ev) {
-		publishpicture();
+		publishphoto();
 		ev.preventDefault();
 	}, false);
 }
