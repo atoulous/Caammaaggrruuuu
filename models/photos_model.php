@@ -1,15 +1,15 @@
 <?php
 Class Photos_model
 {
-	public function add_base_photo($name)
+	public function add_base_photo($name, $extension)
 	{
 		global $DB_NAME;
 
 		require('config/mysql_connect.php');
 		$id = $_SESSION['id'];
 		$today = date("Y-m-d H:i:s");
-		$sql = $pdo->prepare("INSERT INTO $DB_NAME.photos (name, user_id, date)
-			VALUES ('$name', '$id', '$today')");
+		$sql = $pdo->prepare("INSERT INTO $DB_NAME.photos (name, user_id, date, extension)
+			VALUES ('$name', '$id', '$today', '$extension')");
 		try {
 			$sql->execute();
 			return (TRUE);

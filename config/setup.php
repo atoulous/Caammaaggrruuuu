@@ -26,6 +26,7 @@ $sql = $pdo->prepare("
 		id INT PRIMARY KEY AUTO_INCREMENT,
 		name VARCHAR(255),
 		date DATETIME,
+		extension VARCHAR(255),
 		user_id INT);
 	CREATE TABLE likes (
 		id INT PRIMARY KEY AUTO_INCREMENT,

@@ -1,36 +1,34 @@
 function WebCam() {
 	var streaming = false,
-		video = document.querySelector('#video'),
-		cover = document.querySelector('#cover'),
-		canvas = document.querySelector('#canvas'),
-		startbutton = document.querySelector('#startbutton'),
-		width = 400,
+		video = document.getElementById('video'),
+		canvas = document.getElementById('canvas'),
+		width = 404,
 		height = false,
 		photo = false;
 
 	navigator.getMedia = (navigator.getUserMedia ||
-		navigator.webkitGetUserMedia ||
-		navigator.mozGetUserMedia ||
-		navigator.msGetUserMedia);
+			navigator.webkitGetUserMedia ||
+			navigator.mozGetUserMedia ||
+			navigator.msGetUserMedia);
 	navigator.getMedia(
-	{
-		video: true,
+			{
+				video: true,
 		audio: false
-	},
-	function(stream) {
-		if (navigator.mozGetUserMedia) {
-			video.mozSrcObject = stream;
-		}
-		else {
-			var vendorURL = window.URL || window.webkitURL;
-			video.src = vendorURL.createObjectURL(stream);
-		}
-		video.play();
-	},
-	function(err) {
-		console.log("An error occured! " + err);
-	}
-	);
+			},
+			function(stream) {
+				if (navigator.mozGetUserMedia) {
+					video.mozSrcObject = stream;
+				}
+				else {
+					var vendorURL = window.URL || window.webkitURL;
+					video.src = vendorURL.createObjectURL(stream);
+				}
+	video.play();
+			},
+			function(err) {
+				console.log("An error occured! " + err);
+			}
+			);
 
 	video.addEventListener('canplay', function() {
 		if (!streaming) {
@@ -44,18 +42,18 @@ function WebCam() {
 	function takepicture() {
 		canvas.width = width;
 		canvas.height = height;
+		canvas.style.border="2px solid #f3558e";
 		canvas.getContext('2d').drawImage(video, 0, 0, width, height);
 		photo = canvas.toDataURL('image/png');
-		canvas.style.border="2px solid #f3558e";
 		document.getElementById("publishbutton").disabled = false;
 		document.getElementById("deletebutton").disabled = false;
 	}
 
 	function deletepicture() {
-		var canvas = document.getElementById("canvas");
 		var ctx = canvas.getContext("2d");
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		canvas.style.border="0px";
+		canvas.style.backgroundImage = "";
+		canvas.style.border = "0px";
 		document.getElementById("publishbutton").disabled = true;
 		document.getElementById("deletebutton").disabled = true;
 		photo = false;
@@ -72,30 +70,30 @@ function WebCam() {
 				data.append("size-left", filter.style.left);
 				data.append("size-top", filter.style.top);
 			}
-			var myInit = {method: 'POST', body: data, credentials: 'same-origin'};
+			var myInit = { method: 'POST', body: data, credentials: 'same-origin' };
 			fetch("home/add_photo", myInit)
-			.then(function(response) {
-				return response.json()
-			}).then(function(json) {
-				ul = document.getElementById('ul-photos');
-				li = document.createElement('li');
-				a = document.createElement('a');
-				img = document.createElement('img');
-				spanlike = document.createElement('span');
-				spancomment = document.createElement('span');
-				spanlike.style.color = '#4BB5C1';
-				spancomment.style.color = '#4BB5C1';
-				img.setAttribute('src', json.src);
-				img.setAttribute('id', 'all');
-				a.href = json.href;
-				spanlike.innerHTML = json.like;
-				spancomment.innerHTML = json.comment;
-				li.appendChild(img);
-				a.appendChild(li);
-				a.appendChild(spanlike);
-				a.appendChild(spancomment);
-				ul.insertBefore(a, ul.firstChild);
-			});
+				.then(function(response) {
+					return response.json()
+				}).then(function(json) {
+					ul = document.getElementById('ul-photos');
+					li = document.createElement('li');
+					a = document.createElement('a');
+					img = document.createElement('img');
+					spanlike = document.createElement('span');
+					spancomment = document.createElement('span');
+					spanlike.style.color = '#4BB5C1';
+					spancomment.style.color = '#4BB5C1';
+					img.setAttribute('src', json.src);
+					img.setAttribute('id', 'all');
+					a.href = json.href;
+					spanlike.innerHTML = json.like;
+					spancomment.innerHTML = json.comment;
+					li.appendChild(img);
+					a.appendChild(li);
+					a.appendChild(spanlike);
+					a.appendChild(spancomment);
+					ul.insertBefore(a, ul.firstChild);
+				});
 		}
 	}
 
@@ -114,6 +112,32 @@ function WebCam() {
 		ev.preventDefault();
 	}, false);
 
+	add_file.addEventListener('change', function() {
+		var file = document.getElementById("add_file").files[0];
+		var reader = new FileReader();
+		reader.onloadend = function() {
+			var ext = file.name.match(/\.([^\.]+)$/)[1];
+			switch (ext) {
+				case 'png':
+				case 'jpeg':
+				case 'gif':
+					break;
+				default:
+					return;
+			}
+			photo = reader.result;
+			photo.width = "404px";
+			photo.height = "304px";
+			canvas.style.backgroundImage = "url(" + photo + ")";
+			canvas.style.backgroundRepeat = "no-repeat";
+			canvas.style.backgroundSize = "404px 304px";
+			canvas.style.border = "2px solid #f3558e";
+			document.getElementById("publishbutton").disabled = false;
+			document.getElementById("deletebutton").disabled = false;
+		}
+			if (file)
+				reader.readAsDataURL(file);
+	}, true);
 }
 
 function add_filter(filter) {

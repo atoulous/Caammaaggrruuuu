@@ -2,7 +2,8 @@
 <h3>Photo de <a style="color:<?=$color?>" href=<?=$base_url.'user/list_users'?>><?=$photo_user_login?></a></h3>
 <?php
 	$name = $photo['name'];
-	$img = base64_encode(file_get_contents("ressources/photos/$name.png"));
+	$extension = $photo['extension'];
+	$img = base64_encode(file_get_contents("ressources/photos/$name.$extension"));
 	$date = $photo['date'];
 	if ($photo['user_id'] == $_SESSION['id'] || $_SESSION['admin'])
 	{
@@ -15,7 +16,7 @@
 	}
 	else
 		echo 'Publiée le '.$date.'</br></br>';
-	echo '<img src="data:image/png;base64,'.$img.'"></br>
+	echo '<img src="data:image/'.$extension.';base64,'.$img.'"></br>
 		<span style="color:#4BB5C1">'.count($likes).' <3</span></br>';
 	foreach($likes as $lik) {
 		$usr = Users_model::get_user_infos($lik['user_id']);

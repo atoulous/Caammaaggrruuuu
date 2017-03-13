@@ -43,14 +43,26 @@ Class Home
 			$filter['name'] = $_POST['filter'];
 			$filter['top'] = $_POST['size-top'];
 			$filter['left'] = $_POST['size-left'];
-			$img_r = str_replace('data:image/png;base64,', '', $img);
+			$size = getimagesize($img);
+			switch ($size['mime']) {
+				case "image/gif":
+					$extension = "gif";
+					break;
+				case "image/png":
+					$extension = "png";
+					break;
+				case "image/jpeg":
+					$extension = "jpeg";
+					break;
+			}
+			$img_r = str_replace('data:image/'.$extension.';base64,', '', $img);
 			$img_r = str_replace(' ', '+', $img_r);
 			$img_decode = base64_decode($img_r);
 			$name = uniqid();
-			file_put_contents("ressources/photos/$name.png", $img_decode);
+			file_put_contents("ressources/photos/$name.$extension", $img_decode);
 			if ($_POST['filter'])
-				Home::add_filter_photo($name, $filter);
-			Photos_model::add_base_photo($name);
+				Home::add_filter_photo($name, $extension, $filter);
+			Photos_model::add_base_photo($name, $extension);
 			$photos = Photos_model::get_all_photos();
 			foreach ($photos as $photo) {
 				if ($photo['name'] == $name)
@@ -64,19 +76,50 @@ Class Home
 			$tab['href'] = $href;
 			$tab['like'] = "$nb_likes $tmp, ";
 			$tab['comment'] = "$nb_comments $tmp2";
-			$tab['src'] = "ressources/photos/$name.png";
+			$tab['src'] = "ressources/photos/$name.$extension";
 			echo json_encode($tab);
 		}
 	}
 
-	public function add_filter_photo($name, $filter)
+	public function add_filter_photo($name, $extension, $filter)
 	{
+		$width = 404;
+		$height = 304;
+		list($width_orig, $height_orig) = getimagesize('ressources/photos/'.$name.'.'.$extension.'');
+		$ratio_orig = $width_orig/$height_orig;
+		if ($width/$height > $ratio_orig) {
+			$width = $height*$ratio_orig;
+		} else {
+			$height = $width/$ratio_orig; }
+		$resize = imagecreatetruecolor($width, $height);
 		$src = imagecreatefrompng('ressources/filters/'.$filter['name'].'.png');
-		$dst = imagecreatefrompng('ressources/photos/'.$name.'.png');
+		if ($extension == "png")
+			$dst = imagecreatefrompng('ressources/photos/'.$name.'.'.$extension.'');
+		else if ($extension == "jpeg")
+			$dst = imagecreatefromjpeg('ressources/photos/'.$name.'.'.$extension.'');
+		else if ($extension == "gif")
+			$dst = imagecreatefromgif('ressources/photos/'.$name.'.'.$extension.'');
 		$left = $filter['left'];
 		$top = $filter['top'];
-		imagecopy($dst, $src, $left, $top, 0, 0, 404, 304);
-		imagepng($dst, 'ressources/photos/'.$name.'.png');
+		imagecopyresampled($resize, $dst, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+		$extension != "gif" ? imagecopy($resize, $src, $left, $top, 0, 0, 402, 302) : 0;
+		if ($extension == "png")
+			imagepng($resize, 'ressources/photos/'.$name.'.png');
+		else if ($extension == "jpeg")
+			imagejpeg($resize, 'ressources/photos/'.$name.'.jpeg');
+		else if ($extension == "gif") {
+				$tempimage = imagecreatetruecolor($width, $height);
+				// copy the 8-bit gif into the truecolor image
+				imagecopy($tempimage, $resize, 0, 0, 0, 0, $width, $height);
+				// copy the source_id int
+				//imagecopymerge($resize, $src, $left, $top, 0, 0, 402, 302, 75);
+				imagecopy($tempimage, $src, $left, $top, 0, 0,$width, $height);
+				//imagecopy($resize, $src, $left, $top, 0, 0, 402, 302);
+				imagegif($tempimage, 'ressources/photos/'.$name.'.gif');
+		}
+		imagedestroy($resize);
+		imagedestroy($dst);
+		imagedestroy($src);
 	}
 }
 
