@@ -10,12 +10,26 @@ Class User
 		global $base_url;
 		global $users_model;
 
-		if (!$_POST['submit'] || !$_POST['login'] || !$_POST['pwd'])
+		if (!$_POST['submit'])
 			include('views/login_view.php');
 		else
 		{
+			if (!$_POST['login'] || !$_POST['pwd'])
+			{
+				$alert = "Champ manquant";
+				include('views/login_view.php');
+				exit;
+			}
+			$pattern_login = "/.[a-zA-Z0-9@._-]{1,}/";
+			$pattern_pwd = "/.[a-zA-Z0-9]{5,}/";
 			$login = $_POST['login'];
 			$pwd = $_POST['pwd'];
+			if (!preg_match($pattern_login, $login) || !preg_match($pattern_pwd, $pwd))
+			{
+				$alert = "don't hack me bro";
+				include('views/login_view.php');
+				exit;
+			}
 			if ($users_model->login($login, $pwd))
 			{
 				$_SESSION['alert'] = "Bonjour $login !";
@@ -26,6 +40,7 @@ Class User
 				$alert = $_SESSION['alert'];
 				$_SESSION['alert'] = NULL;
 				include('views/login_view.php');
+				exit;
 			}
 		}
 	}
@@ -42,6 +57,16 @@ Class User
 			$email = $_POST['email'];
 			$pwd = $_POST['pwd'] ? hash('whirlpool', $_POST['pwd']) : $pwd;
 			$pwd2 = $_POST['pwd2'] ? hash('whirlpool', $_POST['pwd2']) : $pwd2;
+			$pattern_login = "/.[a-zA-Z0-9]{1,}/";
+			$pattern_email = "/.[a-zA-Z0-9@._-]{2,}/";
+			$pattern_pwd = "/.[a-zA-Z0-9]{5,}/";
+			if (!preg_match($pattern_login, $login) || !preg_match($pattern_email, $email)
+				|| !preg_match($pattern_pwd, $pwd))
+			{
+				$alert = "don't hack me bro";
+				include('views/login_view.php');
+				exit;
+			}
 			if (!$login || !$email || !$pwd || !$pwd2)
 			{
 				$alert = "Tout n'est pas rempli";
@@ -167,6 +192,16 @@ Class User
 		$new_email = $_POST['email'];
 		$new_pwd = $_POST['pwd'] ? hash('whirlpool', $_POST['pwd']) : $new_pwd;
 		$new_pwd2 = $_POST['pwd2'] ? hash('whirlpool', $_POST['pwd2']) : $new_pwd2;
+		$pattern_login = "/.[a-zA-Z0-9]{1,}/";
+		$pattern_email = "/.[a-zA-Z0-9@._-]{2,}/";
+		$pattern_pwd = "/.[a-zA-Z0-9]{5,}/";
+		if (!preg_match($pattern_login, $new_login) || !preg_match($pattern_email, $new_email)
+			|| !preg_match($pattern_pwd, $new_pwd) || !preg_match($pattern_pwd, $new_pwd2))
+		{
+			$alert = "don't hack me bro";
+			include('views/login_view.php');
+			exit;
+		}
 		if (!$new_login || !$new_email || !$new_pwd || !$new_pwd2)
 		{
 			$alert = "Tout n'est pas rempli";
@@ -256,6 +291,17 @@ Class User
 		$old_pwd = $_POST['old_pwd'] ? hash('whirlpool', $_POST['old_pwd']) : $old_pwd;
 		$new_pwd = $_POST['pwd'] ? hash('whirlpool', $_POST['pwd']) : $new_pwd;
 		$new_pwd2 = $_POST['pwd2'] ? hash('whirlpool', $_POST['pwd2']) : $new_pwd2;
+		$pattern_login = "/.[a-zA-Z0-9]{1,}/";
+		$pattern_email = "/.[a-zA-Z0-9@._-]{2,}/";
+		$pattern_pwd = "/.[a-zA-Z0-9]{5,}/";
+		if (!preg_match($pattern_login, $new_login) || !preg_match($pattern_email, $new_email)
+			|| !preg_match($pattern_pwd, $old_pwd) || !preg_match($pattern_pwd, $new_pwd)
+			|| !preg_match($pattern_pwd, $new_pwd2))
+		{
+			$alert = "don't hack me bro";
+			include('views/login_view.php');
+			exit;
+		}
 		if (!$new_login || !$new_email || !$old_pwd || !$new_pwd || !$new_pwd2)
 		{
 			$alert = "Tout n'est pas rempli";
@@ -390,6 +436,56 @@ Class User
 		$users = Users_model::get_all_users();
 		include('views/list_users_view.php');
 		include('views/footer_view.php');
+	}
+
+	public function reset_pwd()
+	{
+		global $base_url;
+
+		if ($_POST['submit'] && $_POST['login'])
+		{
+			$login = $_POST['login'];
+			$pattern_email = "/.[a-zA-Z0-9@._-]{1,}/";
+			if (!preg_match($pattern_email, $login))
+			{
+				$alert = "don't hack me bro";
+				include('views/reset_pwd_view.php');
+				exit;
+			}
+			if (!$user = Users_model::checkifexists($login, ""))
+				if (!$user = Users_model::checkifexists("", $login))
+				{
+					$alert = "Inconnu au bataillon";
+					include('views/reset_pwd_view.php');
+					exit;
+				}
+			$pwd = uniqid();
+			if (Users_model::modif_user_infos($user['id'], $user['login'], $user['email'], hash('whirlpool', $pwd)))
+			{
+				$message = '
+					<html>
+					<body>
+					<h3>Votre nouveau mot de passe '.$user['login'].'</h3>
+					<p>Mot de passe : '.$pwd.'</p>
+					<a href="http://localhost:8080'.$base_url.'">Camagru</a></br>
+					</body>
+					</html>';
+				$headers  = 'MIME-Version: 1.0' . "\r\n";
+				$headers .= 'From: camagru@no-reply.com' . "\r\n";
+				$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+				$mail = $user['email'];
+				mail($mail, "Camagru", $message, $headers);
+				$alert = "Nouveau mot de passe envoyé à $mail";
+				include('views/login_view.php');
+			}
+			else
+			{
+				$alert = "Error :?";
+				include('views/login_view.php');
+			}
+		}
+		else
+			include('views/reset_pwd_view.php');
 	}
 }
 

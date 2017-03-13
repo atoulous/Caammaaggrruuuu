@@ -50,9 +50,10 @@ echo "<script>console.log('Tables well created');</script>";
 $user = 'atoulous';
 $pwd = hash('whirlpool', 'admin1');
 $email = 'atoulous@student.42.fr';
+$today = date("Y-m-d H:i:s");
 $admin = 1;
-$sql = $pdo->prepare("INSERT INTO users (login, pwd, email, admin)
-		VALUES ('$user', '$pwd', '$email', '$admin')");
+$sql = $pdo->prepare("INSERT INTO users (login, pwd, email, admin, date)
+		VALUES ('$user', '$pwd', '$email', '$admin', '$today')");
 try {
 	$sql->execute();
 } catch (PDOException $Exception) {

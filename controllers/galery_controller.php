@@ -27,6 +27,9 @@ class galery
 		global $base_url;
 
 		$url = explode('/', $_SERVER[REQUEST_URI]);
+		if (!$url[4])
+			header('Location: '.$base_url.'galery');
+
 		$photo_id = $url[4];
 		include('views/header_view.php');
 		$photo = Photos_model::get_photo($photo_id);

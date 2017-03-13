@@ -88,7 +88,7 @@ Class Users_model
 				else
 					$_SESSION['alert'] = "Email déjà existant";
 			}
-			return (TRUE);
+			return ($result);
 		}
 		else
 			return (FALSE);
@@ -130,6 +130,7 @@ Class Users_model
 		else
 			return (FALSE);
 	}
+
 	public function modif_user_infos($id, $login, $email, $pwd)
 	{
 		global $DB_NAME;
@@ -149,6 +150,7 @@ Class Users_model
 			return (FALSE);
 		}
 	}
+
 	public function delete_user_base($id)
 	{
 		global $DB_NAME;
@@ -163,6 +165,7 @@ Class Users_model
 			return (FALSE);
 		}
 	}
+
 	public function get_all_users()
 	{
 		global $DB_NAME;

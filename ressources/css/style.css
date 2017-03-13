@@ -63,12 +63,17 @@ input {
 	margin: 1%;
 }
 
+
 input[type=submit] {
 	background-color: #4CAF50;
 	border: none;
 	border-radius: 3px;
 	cursor: pointer;
 	color: #f6f7d3;
+}
+
+input:hover {
+	box-shadow: 1px 1px 10px #333c4a;
 }
 
 a {
@@ -80,30 +85,53 @@ p {
 }
 
 h1  {
-	font-size: 4vmax;
+	font-size: 4vmin;
 	color: #7dce94;
 	text-align: center;
 }
 
 h3 {
-	font-size: 2vmax;
+	font-size: 2vmin;
 	text-align:center;
 	margin:1%;
+	margin-top:1%;
 }
 
 ul {
 	text-align: center;
 	overflow: auto;
 	display: flex;
+	background: none;
+	border-radius: 10px;
 }
 
 li {
 	margin: 0.2%;
+	list-style: none;
 }
+
+img:hover {
+	box-shadow: 1px 1px 10px #333c4a;
+}
+
 img {
 	background: #333c4a;
 	border: 2px solid black;
 	border-radius: 10px;
+}
+
+button {
+	background: #333c4a;
+	color: #f8fceb;
+	border-radius: 8px;
+	border:none;
+	cursor:pointer;
+	font-size: 15px;
+	padding: 2px;
+}
+button:hover:enabled {
+	background: #7dce94;
+	box-shadow: 1px 1px 10px #333c4a;
 }
 
 #all {
@@ -121,34 +149,50 @@ img {
 #camera {
 	position: relative;
 	display: inline-flex;
+	overflow: hidden;
 }
 
 #video {
+	width: 404px;
+	height: 304px;
 	position:absolute;
 	background: #333c4a;
 	box-sizing: content-box;
-	border: 2px solid black;
 	border-radius: 10px;
-	text-align: center;
 }
 
 #canvas {
-	position:absolute;
+	width: 404px;
+	height: 304px;
 	box-sizing: content-box;
-	border: 2px solid #f3558e;
 	border-radius: 10px;
 	z-index: 10;
 }
 
+#filter {
+	position:absolute;
+	box-sizing: content-box;
+	background: none;
+	border: none;
+	z-index: 20;
+	box-shadow: 0px 0px 0px;
+}
+
+#filters {
+	background: none;
+	border: none;
+	display: inline-block;
+	width: 15vmin;
+	cursor:pointer;
+}
+
 #button {
-	padding-top: 320px;
-	margin-left: 30px;
 }
 
 #comment {
 	overflow: auto;
 	padding:1%;
-	font-size: 1.5vmax;
+	font-size: 1.5vmin;
 }
 
 #form_delcom {

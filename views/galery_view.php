@@ -12,7 +12,7 @@ foreach($photos as $img) {
 	$tmp = $nb_likes > 1 ? "likes" : "like";
 	$tmp2 = $nb_comments > 1 ? "commentaires" : "commentaire";
 	echo "<li>
-		<a href=$href><img id='all'src='data:image/png;base64,$photo'>
+		<a href=$href><img id='all'src='data:image/png;base64,$photo'></br>
 		<span style='color:#4BB5C1'>$nb_likes $tmp,</span>
 		<span style='color:#4BB5C1'>$nb_comments $tmp2</span>
 		</a></li>";
