@@ -13,20 +13,21 @@ html {
 }
 
 body {
-	min-height: 100%;
+	height: 100%;
 }
 
 #header {
+	position: relative;
 	background: #333c4a;
 	color: #f6f7d3;
-	min-height: 10vh;
+	height: 10%;
 	width: 100%;
 	padding: 1%;
-	font-size: 1.5vh;
+	font-size: 1.5vmin;
 }
 
 #container {
-	min-height: 80vh;
+	height: 80%;
 	width: 100%;
 	background: #f8fceb;
 	background-size: 100%;
@@ -38,18 +39,24 @@ body {
 	background: #f6f7d3;
 	position: fixed;
 	width: 100%;
-	min-height:10vh;
+	height:10%;
 	text-align:right;
 	padding: 1%;
 	color: #333c4a;
+	font-size: 1vmin;
 }
 
 #menu {
-	float: left;
+	position: absolute;
+	margin: 1%;
+	bottom: 0;
 }
 
 #account {
-	float: right;
+	position: absolute;
+	margin: 1%;
+	right: 0;
+	bottom: 0;
 }
 
 form {
@@ -194,8 +201,8 @@ button:hover {
 	background: none;
 	border: none;
 	display: inline-block;
-	height: 15vmin;
-	width: 20vmin;
+	height: 10vmin;
+	width: 16vmin;
 	cursor:pointer;
 }
 

@@ -15,8 +15,8 @@
 			<a href="<?=$base_url?>user/list_users">Communauté</a>
 		</div>
 		<div id="account">
-			<span style="color:#f3558e"><?echo($_SESSION['login'])?></span>
-			<a style="font-size:1vw" href="<?=$base_url?>user/user_infos">Mon compte</a>
-			<a style="font-size:1vw" href="<?=$base_url?>user/logout">Se deconnecter</a>
+			<span style="color:#f3558e;font-size:3vmin"><?echo($_SESSION['login'])?></span>
+			<a href="<?=$base_url?>user/user_infos">Mon compte</a>
+			<a href="<?=$base_url?>user/logout">Se deconnecter</a>
 		</div>
 	</div>

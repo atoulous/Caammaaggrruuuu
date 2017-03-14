@@ -60,7 +60,7 @@ function WebCam() {
 	}
 
 	function publishphoto() {
-		if (photo)
+		if (photo && streaming)
 		{
 			var filter = document.getElementById('filter');
 			var data = new FormData();

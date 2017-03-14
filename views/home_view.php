@@ -8,7 +8,7 @@
 		<button id="deletebutton" disabled>Supprimer la photo</button>
 		<button id="publishbutton" disabled>Publier la photo</button></p>
 	</div>
-	<input id="add_file" type="file" accept=".png, .jpeg, .gif">
+	<input id="add_file" type="file" style="padding:1em" accept=".png, .jpeg, .gif">
 </br>
 	<div>
 	<h3>Les filtres</h3>
