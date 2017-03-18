@@ -60,17 +60,17 @@ Class User
 			$pattern_login = "/.[a-zA-Z0-9]{1,}/";
 			$pattern_email = "/.[a-zA-Z0-9@._-]{2,}/";
 			$pattern_pwd = "/.[a-zA-Z0-9]{5,}/";
+			if (!$login || !$email || !$pwd || !$pwd2)
+			{
+				$alert = "Tout n'est pas rempli";
+				include('views/subscribe_view.php');
+				exit;
+			}
 			if (!preg_match($pattern_login, $login) || !preg_match($pattern_email, $email)
 				|| !preg_match($pattern_pwd, $pwd))
 			{
 				$alert = "don't hack me bro";
 				include('views/login_view.php');
-				exit;
-			}
-			if (!$login || !$email || !$pwd || !$pwd2)
-			{
-				$alert = "Tout n'est pas rempli";
-				include('views/subscribe_view.php');
 				exit;
 			}
 			else if (!filter_var($email, FILTER_VALIDATE_EMAIL))
@@ -104,7 +104,7 @@ Class User
 					</html>';
 				$headers  = 'MIME-Version: 1.0' . "\r\n";
 				$headers .= 'From: camagru@no-reply.com' . "\r\n";
-				$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+				$headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
 				mail($email, "Inscription Camagru", $message, $headers);
 				header("Location: $base_url");
 			}
@@ -195,19 +195,19 @@ Class User
 		$pattern_login = "/.[a-zA-Z0-9]{1,}/";
 		$pattern_email = "/.[a-zA-Z0-9@._-]{2,}/";
 		$pattern_pwd = "/.[a-zA-Z0-9]{5,}/";
-		if (!preg_match($pattern_login, $new_login) || !preg_match($pattern_email, $new_email)
-			|| !preg_match($pattern_pwd, $new_pwd) || !preg_match($pattern_pwd, $new_pwd2))
-		{
-			$alert = "don't hack me bro";
-			include('views/login_view.php');
-			exit;
-		}
 		if (!$new_login || !$new_email || !$new_pwd || !$new_pwd2)
 		{
 			$alert = "Tout n'est pas rempli";
 			include('views/header_view.php');
 			include('views/admin_modif_view.php');
 			include('views/footer_view.php');
+			exit;
+		}
+		if (!preg_match($pattern_login, $new_login) || !preg_match($pattern_email, $new_email)
+			|| !preg_match($pattern_pwd, $new_pwd) || !preg_match($pattern_pwd, $new_pwd2))
+		{
+			$alert = "don't hack me bro";
+			include('views/login_view.php');
 			exit;
 		}
 		else if (!filter_var($new_email, FILTER_VALIDATE_EMAIL))
@@ -259,7 +259,7 @@ Class User
 				</html>';
 			$headers  = 'MIME-Version: 1.0' . "\r\n";
 			$headers .= 'From: camagru@no-reply.com' . "\r\n";
-			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+			$headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
 			mail($new_email, "Modification Camagru", $message, $headers);
 			$alert = "Modification réussi";
 			include('views/header_view.php');
@@ -294,20 +294,20 @@ Class User
 		$pattern_login = "/.[a-zA-Z0-9]{1,}/";
 		$pattern_email = "/.[a-zA-Z0-9@._-]{2,}/";
 		$pattern_pwd = "/.[a-zA-Z0-9]{5,}/";
-		if (!preg_match($pattern_login, $new_login) || !preg_match($pattern_email, $new_email)
-			|| !preg_match($pattern_pwd, $old_pwd) || !preg_match($pattern_pwd, $new_pwd)
-			|| !preg_match($pattern_pwd, $new_pwd2))
-		{
-			$alert = "don't hack me bro";
-			include('views/login_view.php');
-			exit;
-		}
 		if (!$new_login || !$new_email || !$old_pwd || !$new_pwd || !$new_pwd2)
 		{
 			$alert = "Tout n'est pas rempli";
 			include('views/header_view.php');
 			include('views/user_infos_view.php');
 			include('views/footer_view.php');
+			exit;
+		}
+		if (!preg_match($pattern_login, $new_login) || !preg_match($pattern_email, $new_email)
+			|| !preg_match($pattern_pwd, $old_pwd) || !preg_match($pattern_pwd, $new_pwd)
+			|| !preg_match($pattern_pwd, $new_pwd2))
+		{
+			$alert = "don't hack me bro";
+			include('views/login_view.php');
 			exit;
 		}
 		else if (!filter_var($new_email, FILTER_VALIDATE_EMAIL))
@@ -367,7 +367,7 @@ Class User
 				</html>';
 			$headers  = 'MIME-Version: 1.0' . "\r\n";
 			$headers .= 'From: camagru@no-reply.com' . "\r\n";
-			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+			$headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
 			mail($new_email, "Modification Camagru", $message, $headers);
 			$alert = "Modification réussi";
 			include('views/header_view.php');
@@ -411,7 +411,7 @@ Class User
 						</html>';
 					$headers  = 'MIME-Version: 1.0' . "\r\n";
 					$headers .= 'From: camagru@no-reply.com' . "\r\n";
-					$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+					$headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
 					mail($_SESSION['email'], "Delete Camagru", $message, $headers);
 					User::logout();
 				}
@@ -472,7 +472,7 @@ Class User
 					</html>';
 				$headers  = 'MIME-Version: 1.0' . "\r\n";
 				$headers .= 'From: camagru@no-reply.com' . "\r\n";
-				$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+				$headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
 				$mail = $user['email'];
 				mail($mail, "Camagru", $message, $headers);
 				$alert = "Nouveau mot de passe envoyé à $mail";

@@ -3,6 +3,7 @@
 <?php
 	$name = $photo['name'];
 	$extension = $photo['extension'];
+	$id = $photo['id'];
 	$img = base64_encode(file_get_contents("ressources/photos/$name.$extension"));
 	$date = $photo['date'];
 	if ($photo['user_id'] == $_SESSION['id'] || $_SESSION['admin'])
@@ -17,10 +18,10 @@
 	else
 		echo 'Publiée le '.$date.'</br></br>';
 	echo '<img src="data:image/'.$extension.';base64,'.$img.'"></br>
-		<span style="color:#4BB5C1">'.count($likes).' <3</span></br>';
+		<span style="color:#3b5998">'.count($likes).' <3</span></br>';
 	foreach($likes as $lik) {
 		$usr = Users_model::get_user_infos($lik['user_id']);
-		echo '<span style="color:#4BB5C1">'.$usr['login'].' aime ça</span></br>';
+		echo '<span style="color:#3b5998">'.$usr['login'].' aime ça</span></br>';
 	}
 	if (!$like)
 		$action = ''.$base_url.'like/add_like';
@@ -31,8 +32,15 @@
 		<input type="hidden" name="photo_user_id" value="<?=$photo_user_id?>"/>
 		<input type="hidden" name="photo_id" value="<?=$photo_id?>"/>
 		<input type="hidden" name="like_id" value="<?=$like['id']?>"/>
-		<input type="submit" style="background:#4BB5C1" name="submit" title="like" value="<?=$like ? "J'aime plus" : "J'aime"?>">
-	</form></br>
+		<input type="submit" style="background:#3b5998;font-weight:bold" name="submit" title="like" value="<?=$like ? "J'aime plus" : "J'aime"?>">
+	</form>
+
+<iframe src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Flocalhost%3A8080%2F<?=$base_url?>%2Fgalery%2Fphoto%2F<?=$id?>&layout=button&size=small&mobile_iframe=true&width=73&height=20&appId" width="73" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe></br>
+
+<a ref="http://twitter.com/share" class="twitter-share-button" data-count="vertical">Tweet</a></br></br>
+<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+
+
 <?
 	foreach ($comments as $com)
 	{
@@ -52,11 +60,11 @@
 			</form><span style="font-size:small"> le '.$date.'</span></div></br>';
 		}
 		else
-			echo "<div id='comment'><span style='font-weight:bold;color:$color'>$login_comment:</span> $text<span style='font-size:small'> le $date</span></div>";
+			echo "<div id='comment'><span style='font-weight:bold;color:$color'>$login_comment: </span><span> $text </span> <span style='font-size:small;margin-left:5%'> le $date </span></div>";
 	}
 ?>
 	<form id="addcom" action="<?=$base_url?>comment/add_comment" method="post"></br>
-		<input type ="text" id="add_comment" name="text" pattern=".[a-zA-Z0-9@._-,;)(]{0,}" placeholder="Votre commentaire..."></input>
+		<input type="text" required id="add_comment" name="text" pattern=".[a-zA-Z0-9():;@ ._]{1,}" placeholder="Votre commentaire..."/>
 		<input type="hidden" name="photo_user_id" value="<?=$photo_user_id?>"/>
 		<input type="hidden" name="photo_id" value="<?=$photo_id?>"/>
 		<input type="submit" name="submit" title="Envoyer le commentaire" value="Envoyer"/>

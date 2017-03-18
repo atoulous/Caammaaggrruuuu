@@ -33,7 +33,7 @@ Class Home
 		global $photos_model;
 		global $DB_NAME;
 
-		if (!$_SESSION['connect'])
+		if (!$_SESSION['connect'] || !$_POST)
 		{
 			Login::index();
 			exit;
@@ -99,6 +99,8 @@ Class Home
 			$dst = imagecreatefromjpeg('ressources/photos/'.$name.'.'.$extension.'');
 		else if ($extension == "gif")
 			$dst = imagecreatefromgif('ressources/photos/'.$name.'.'.$extension.'');
+		else
+			$dst = imagecreatetruecolor($width, $height);
 		$left = $filter['left'];
 		$top = $filter['top'];
 		imagecopyresampled($resize, $dst, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);

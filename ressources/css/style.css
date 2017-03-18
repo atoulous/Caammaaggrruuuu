@@ -17,46 +17,49 @@ body {
 }
 
 #header {
+	font-family:Stencil Std, fantasy;
 	position: relative;
 	background: #333c4a;
 	color: #f6f7d3;
-	height: 10%;
+	height: 6%;
 	width: 100%;
-	padding: 1%;
 	font-size: 1.5vmin;
 }
 
 #container {
-	height: 80%;
+	font-family:Stencil Std, fantasy;
+	height: 88%;
 	width: 100%;
 	background: #f8fceb;
 	background-size: 100%;
 	padding: 1%;
 	color: #333c4a;
+	overflow: auto;
 }
 
 #footer {
+	font-family:Stencil Std, fantasy;
 	background: #f6f7d3;
 	position: fixed;
 	width: 100%;
-	height:10%;
+	height:6%;
 	text-align:right;
 	padding: 1%;
 	color: #333c4a;
-	font-size: 1vmin;
+	font-size: 1.5vmin;
 }
 
 #menu {
 	position: absolute;
-	margin: 1%;
 	bottom: 0;
+	margin-left: 1%;
 }
 
 #account {
 	position: absolute;
-	margin: 1%;
 	right: 0;
 	bottom: 0;
+	margin-right: 1%;
 }
 
 form {
@@ -90,14 +93,14 @@ a {
 
 a:hover {
 	color: white;
+	font-weight: bold;
 }
 
 p {
 }
 
-h1  {
-	font-size: 4vmin;
-	color: #7dce94;
+h1 {
+	font-size: 3vmin;
 	text-align: center;
 }
 
@@ -235,3 +238,13 @@ button:hover {
 	padding: 0;
 	margin: 0;
 }
+
+.fa {
+	color: #333c4a;
+	padding-top:110px;
+}
+.fa:hover {
+	font-size:5em;
+	cursor: pointer;
+}
+
