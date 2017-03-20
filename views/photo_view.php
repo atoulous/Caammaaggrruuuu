@@ -21,7 +21,8 @@
 		<span style="color:#3b5998">'.count($likes).' <3</span></br>';
 	foreach($likes as $lik) {
 		$usr = Users_model::get_user_infos($lik['user_id']);
-		echo '<span style="color:#3b5998">'.$usr['login'].' aime ça</span></br>';
+		$usr['login'] ? $usr_login = $usr['login'] : $usr_login = "Inconnu";
+		echo '<span style="color:#3b5998">'.$usr_login.' aime ça</span></br>';
 	}
 	if (!$like)
 		$action = ''.$base_url.'like/add_like';

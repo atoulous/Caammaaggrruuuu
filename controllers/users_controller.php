@@ -104,24 +104,48 @@ Class User
 			}
 			if ($users_model->subscribe($login, $email, $pwd))
 			{
-				$_SESSION['alert'] = "Bienvenue jeune padawan $login !";
 				$message = '
 					<html>
 					<body>
 					<h3>Bienvenue sur Camagru '.$login.'! Snap, commente, like!</h3>
-					<a href="http://localhost:8080'.$base_url.'">Camagru</a></br>
+					<h3>Confirme ton inscription en cliquant sur le lien ci dessous</h3>
+					<a href="http://localhost:8080'.$base_url.'user/active/'.$login.'/'.$email.'">Go camagru go</a></br>
 					</body>
 					</html>';
 				$headers  = 'MIME-Version: 1.0' . "\r\n";
 				$headers .= 'From: camagru@no-reply.com' . "\r\n";
 				$headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
 				mail($email, "Inscription Camagru", $message, $headers);
-				header("Location: $base_url");
+				$alert = "Un mail de confirmation vous a été envoyé";
+				include('views/login_view.php');
+
 			}
 			else
 				include('views/subscribe_view.php');
 		}
 	}
+
+	public function active()
+	{
+		global $base_url;
+
+		if ($_SESSION['connect'])
+		{
+			User::logout();
+			exit;
+		}
+		$url = explode('/', $_SERVER[REQUEST_URI]);
+		if (!$url[4] || !$url[5])
+			header('Location: '.$base_url.'');
+		else
+		{
+			$login = $url[4];
+			$email = $url[5];
+			Users_model::active_base($login, $email);
+			header('Location: '.$base_url.'');
+		}
+	}
+
 	public function logout()
 	{
 		global $base_url;

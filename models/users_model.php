@@ -44,8 +44,8 @@ Class Users_model
 
 		require('config/mysql_connect.php');
 		$today = date("Y-m-d H:i:s");
-		$sql = $pdo->prepare("INSERT INTO $DB_NAME.users (login, email, pwd, date)
-			VALUES ('$login', '$email', '$pwd', '$today')");
+		$sql = $pdo->prepare("INSERT INTO $DB_NAME.users (login, email, pwd, date, active)
+			VALUES ('$login', '$email', '$pwd', '$today', 'no')");
 		try {
 			$result = $sql->execute();
 		}
@@ -53,13 +53,27 @@ Class Users_model
 			echo "Register member error: ".$e->getMessage()."";
 		}
 		if ($result)
-		{
-			$_SESSION['connect'] = 'yes';
-			$_SESSION['id'] = $pdo->lastInsertId();
-			$_SESSION['login'] = $login;
-			$_SESSION['email'] = $email;
 			return ($result);
+		else
+			return (FALSE);
+	}
+
+	public function active_base($login, $email)
+	{
+		global $DB_NAME;
+
+		require('config/mysql_connect.php');
+		$sql = $pdo->prepare("UPDATE $DB_NAME.users SET
+			active = 'yes'
+			WHERE login = '$login'");
+		try {
+			$done = $sql->execute();
 		}
+		catch (PDOException $e) {
+			echo "Register member error: ".$e->getMessage()."";
+		}
+		if ($done)
+			return (TRUE);
 		else
 			return (FALSE);
 	}

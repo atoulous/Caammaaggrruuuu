@@ -18,6 +18,7 @@ $sql = $pdo->prepare("
 		email VARCHAR(255),
 		pwd VARCHAR(255),
 		date DATETIME,
+		active VARCHAR(255),
 		admin INT);
 	CREATE TABLE photos (
 		id INT PRIMARY KEY AUTO_INCREMENT,
@@ -50,8 +51,8 @@ $pwd = hash('whirlpool', 'admin1');
 $email = 'atoulous@student.42.fr';
 $today = date("Y-m-d H:i:s");
 $admin = 1;
-$sql = $pdo->prepare("INSERT INTO users (login, pwd, email, admin, date)
-		VALUES ('$user', '$pwd', '$email', '$admin', '$today')");
+$sql = $pdo->prepare("INSERT INTO users (login, pwd, email, admin, date, active)
+		VALUES ('$user', '$pwd', '$email', '$admin', '$today', 'yes')");
 try {
 	$sql->execute();
 } catch (PDOException $Exception) {

@@ -11,13 +11,13 @@ Class Home
 	{
 		global $base_url;
 
-		if (!$_SESSION['connect'])
-		{
+		if (!$_SESSION['connect']) {
 			User::index();
 			exit;
 		}
-		else
-		{
+		if (!Users_model::checkifexists($_SESSION['login'], $_SESSION['email']))
+			User::logout();
+		else {
 			$_SESSION['alert'] = NULL;
 			include('views/header_view.php');
 			$filters = array_diff(scandir('ressources/filters'), array('..', '.'));

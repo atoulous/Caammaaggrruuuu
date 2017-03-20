@@ -1,4 +1,5 @@
 <div id="container" style="text-align:center">
+	<p style="color:#f3558e;text-align:left"><?echo "$alert"?><p>
 	<div id="camera">
 		<video id="video"></video>
 		<canvas id="canvas" ></canvas>
