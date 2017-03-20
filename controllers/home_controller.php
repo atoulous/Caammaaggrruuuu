@@ -61,6 +61,8 @@ Class Home
 			$img_r = str_replace(' ', '+', $img_r);
 			$img_decode = base64_decode($img_r);
 			$name = uniqid();
+			if (!file_exists("ressources/photos"))
+				mkdir("ressources/photos");
 			file_put_contents("ressources/photos/$name.$extension", $img_decode);
 			if ($_POST['filter'])
 				Home::add_filter_photo($name, $extension, $filter);
