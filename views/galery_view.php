@@ -29,8 +29,7 @@ for ($i = $page; $i < $nb_photos_page; $i++) {
 	<i id='back' onclick="load_back(0)" class="fa fa-chevron-left fa-4x"></i>
 <?php
 for ($i = $page; $i < $nb_photos_page; $i++) {
-	if ($img = $photos[$i]) {
-		$img = $photos_user[$i];
+	if ($img = $photos_user[$i]) {
 		$name = $img['name'];
 		$id = $img['id'];
 		$extension = $img['extension'];

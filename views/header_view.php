@@ -9,16 +9,15 @@
 </head>
 <body>
 	<div id="header">
-	<p><?echo "$alert"?><p>
-	<h1><a style="color:#7dce94" href="<?=$base_url?>">Camagru</a></h1>
+	<a style="" href="<?=$base_url?>"><h1 style="font-style:italic;">Camagru</h1></a>
 		<div id="menu">
 			<a href="<?=$base_url?>">Accueil</a>
 			<a href="<?=$base_url?>galery">Galerie</a>
 			<a href="<?=$base_url?>user/list_users">Communauté</a>
 		</div>
 		<div id="account">
-			<span style="color:#f3558e;"><?echo($_SESSION['login'])?></span>
-			<a href="<?=$base_url?>user/user_infos">Mon compte</a>
+			<a title="Mon compte" href="<?=$base_url?>user/user_infos">
+				<span style="color:#f3558e;"><?echo($_SESSION['login'])?></span></a>
 			<a href="<?=$base_url?>user/logout">Se deconnecter</a>
 		</div>
 	</div>

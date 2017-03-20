@@ -35,11 +35,11 @@
 		<input type="submit" style="background:#3b5998;font-weight:bold" name="submit" title="like" value="<?=$like ? "J'aime plus" : "J'aime"?>">
 	</form>
 
-<iframe src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Flocalhost%3A8080%2F<?=$base_url?>%2Fgalery%2Fphoto%2F<?=$id?>&layout=button&size=small&mobile_iframe=true&width=73&height=20&appId" width="73" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe></br>
+<!--<iframe src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Flocalhost%3A8080%2F<?=$base_url?>%2Fgalery%2Fphoto%2F<?=$id?>&layout=button&size=small&mobile_iframe=true&width=73&height=20&appId" width="73" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe></br>
 
 <a ref="http://twitter.com/share" class="twitter-share-button" data-count="vertical">Tweet</a></br></br>
 <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-
+-->
 
 <?
 	foreach ($comments as $com)

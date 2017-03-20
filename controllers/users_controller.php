@@ -10,6 +10,11 @@ Class User
 		global $base_url;
 		global $users_model;
 
+		if ($_SESSION['connect'] == 'yes')
+		{
+			Home::index();
+			exit;
+		}
 		if (!$_POST['submit'])
 			include('views/login_view.php');
 		else
@@ -49,6 +54,11 @@ Class User
 		global $base_url;
 		global $users_model;
 
+		if ($_SESSION['connect'] == 'yes')
+		{
+			Home::index();
+			exit;
+		}
 		if (!$_POST['submit'])
 			include('views/subscribe_view.php');
 		else
@@ -116,6 +126,11 @@ Class User
 	{
 		global $base_url;
 
+		if (!$_SESSION['connect'])
+		{
+			User::index();
+			exit;
+		}
 		$_SESSION = array();
 		if (ini_get("session.use_cookies"))
 		{
@@ -164,6 +179,11 @@ Class User
 	{
 		global $base_url;
 
+		if (!$_SESSION['connect'])
+		{
+			User::index();
+			exit;
+		}
 		echo ($_SESSION['alert']);
 		$_SESSION['alert'] = NULL;
 		if ($user_id && $_SESSION['admin'])
@@ -182,6 +202,11 @@ Class User
 	{
 		global $base_url;
 
+		if (!$_SESSION['connect'])
+		{
+			User::index();
+			exit;
+		}
 		if (!$_POST['submit'])
 			header("Location: $base_url");
 		$user_id = $_POST['user_id'];
@@ -283,6 +308,11 @@ Class User
 		global $users_model;
 		global $DB_NAME;
 
+		if (!$_SESSION['connect'])
+		{
+			User::index();
+			exit;
+		}
 		if (!$_POST['submit'])
 			header("Location: $base_url");
 		$id = $_SESSION['id'];
@@ -388,6 +418,11 @@ Class User
 	{
 		global $base_url;
 
+		if (!$_SESSION['connect'])
+		{
+			User::index();
+			exit;
+		}
 		if (!$_POST['submit'])
 			header("Location: $base_url");
 		$id = $_POST['user_id'];
@@ -430,6 +465,11 @@ Class User
 	{
 		global $base_url;
 
+		if (!$_SESSION['connect'])
+		{
+			User::index();
+			exit;
+		}
 		echo ($_SESSION['alert']);
 		$_SESSION['alert'] = NULL;
 		include('views/header_view.php');

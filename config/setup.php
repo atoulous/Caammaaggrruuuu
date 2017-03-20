@@ -1,8 +1,5 @@
 <?php
 include('mysql_connect.php');
-session_status() == 2 ? session_destroy() : 0;
-$_SESSION['connect'] = NULL;
-
 $sql = $pdo->prepare("DROP DATABASE IF EXISTS $DB_NAME;
 		CREATE DATABASE IF NOT EXISTS $DB_NAME;
 		USE $DB_NAME");

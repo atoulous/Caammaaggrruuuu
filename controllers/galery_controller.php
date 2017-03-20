@@ -8,7 +8,7 @@ class galery
 
 		if (!$_SESSION['connect'])
 		{
-			Login::index();
+			Home::index();
 			exit;
 		}
 		else
@@ -147,13 +147,20 @@ class galery
 		global $DB_NAME;
 		global $base_url;
 
+		if (!$_SESSION['connect'])
+		{
+			Home::index();
+			exit;
+		}
+		else
 		$url = explode('/', $_SERVER[REQUEST_URI]);
 		if (!$url[4])
 			header('Location: '.$base_url.'galery');
 
 		$photo_id = $url[4];
-		include('views/header_view.php');
 		$photo = Photos_model::get_photo($photo_id);
+		if (!$photo)
+			header('Location: '.$base_url.'galery');
 		if (!($user = Users_model::get_user_infos($photo['user_id'])))
 			$user['login'] = "Inconnu";
 		$photo_user_login = $user['login'];
@@ -162,6 +169,7 @@ class galery
 		$likes = Likes_model::get_photo_likes($photo_id);
 		$like = Likes_model::get_user_like($photo_id, $_SESSION['id']);
 		$color = $_SESSION['id'] == $photo_user_id ? "#f3558e" : "#7dce94";
+		include('views/header_view.php');
 		include('views/photo_view.php');
 		include('views/footer_view.php');
 	}
@@ -170,6 +178,12 @@ class galery
 	{
 		global $base_url;
 
+		if (!$_SESSION['connect'])
+		{
+			Home::index();
+			exit;
+		}
+		else
 		if ($_POST['submit'])
 		{
 			$photo_id = $_POST['photo_id'];

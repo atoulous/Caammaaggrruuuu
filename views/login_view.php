@@ -6,13 +6,11 @@
 	<link rel="stylesheet" type="text/css" href="<?=$base_url?>ressources/css/style.css">
 </head>
 <body>
-	<div id="header">
-		<h1>Camagru</h1>
-	</div>
+	<div id="header"><h1 style="font-style: italic">Camagru</h1></div>
 	<div id="container">
 	<form id="login" action="<?=$base_url?>user" method="post">
 			<h3>Connexion</h3>
-			<p><?echo "$alert"?><p>
+			<p style="color:#f3558e"><?echo "$alert"?><p>
 			<p><input type="text" id="login" name="login" pattern=".[a-zA-Z0-9@._-]{1,}" title="2 caractères alphanumériques" value="<?=$login?>" placeholder="Login ou adresse mail" autofocus/></p>
 			<p><input type="password" id="pwd" name="pwd" pattern=".[a-zA-Z0-9]{5,}" title="6 caractères alphanumériques" placeholder="Mot de passe"/></p>
 			<p><input type="submit" name="submit" value="Se connecter"/></p>

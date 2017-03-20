@@ -1,4 +1,5 @@
 <!doctype html>
+<?php?>
 <html lang="fr">
 <head>
 	<meta charset="utf-8">
@@ -6,13 +7,11 @@
 	<link rel="stylesheet" type="text/css" href="<?=$base_url?>ressources/css/style.css">
 </head>
 <body>
-	<div id="header">
-		<h1>Camagru</h1>
-	</div>
+	<div id="header"><h1 style="font-style: italic">Camagru</h1></div>
 	<div id="container">
 		<form id="subscribe" action="<?=$base_url?>user/subscribe" method="post">
 			<h3>Inscription</h3>
-			<p><?echo "$alert"?><p>
+			<p style="color:#f3558e"><?echo "$alert"?><p>
 			<p><input type="text" id="login" name="login" pattern=".[a-zA-Z0-9]{1,}" title="2 caractères alphanumériques minimum" value="<?=$login?>" placeholder="Login" autofocus/></p>
 			<p><input type="text" id="email" name="email" value="<?=$email?>" pattern=".[a-zA-Z0-9@._-]{2,}" title="email valide" placeholder="Adresse mail"/></p>
 			<p><input type="password" id="pwd" name="pwd" pattern=".[a-zA-Z0-9]{5,}" title="6 caractères alphanumériques minimum" placeholder="Mot de passe"/></p>

@@ -35,7 +35,7 @@ Class Home
 
 		if (!$_SESSION['connect'] || !$_POST)
 		{
-			Login::index();
+			Home::index();
 			exit;
 		}
 		else if (($img = $_POST['img']) != 'false')
@@ -55,6 +55,8 @@ Class Home
 					$extension = "jpeg";
 					break;
 			}
+			if (!$extension)
+				header("Location: $base_url");
 			$img_r = str_replace('data:image/'.$extension.';base64,', '', $img);
 			$img_r = str_replace(' ', '+', $img_r);
 			$img_decode = base64_decode($img_r);
@@ -83,6 +85,11 @@ Class Home
 
 	public function add_filter_photo($name, $extension, $filter)
 	{
+		if (!$_SESSION['connect'] || !$name || !$extension || !$filter)
+		{
+			Home::index();
+			exit;
+		}
 		$width = 404;
 		$height = 304;
 		list($width_orig, $height_orig) = getimagesize('ressources/photos/'.$name.'.'.$extension.'');

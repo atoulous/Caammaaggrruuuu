@@ -1,7 +1,7 @@
 <div id="container">
 <h3>Compte de <?=$login?></h3>
 	<form id="user_info" action="<?=$base_url?>user/admin_modif" method="post">
-		<p><?echo "$alert"?><p>
+		<p style="color:#f3558e"><?echo "$alert"?><p>
 		<p><input type="text" id="login" name="login" pattern=".[a-zA-Z0-9]{1,}" title="2 caractères minimum" value="<?=$login?>" placeholder="Login" autofocus/></p>
 			<p><input type="text" id="email" name="email" value="<?=$email?>" pattern=".[a-zA-Z0-9-@._]{4,}" title="email valide" placeholder="Adresse mail"/></p>
 			<p><input type="password" id="pwd" name="pwd" pattern=".[a-zA-Z0-9]{5,}" title="6 caractères minimum" placeholder="Nouveau mot de passe"/></p>

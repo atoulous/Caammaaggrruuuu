@@ -3,12 +3,22 @@ class Like
 {
 	public function index()
 	{
+		if (!$_SESSION['connect'])
+		{
+			Home::index();
+			exit;
+		}
 	}
 
 	public function add_like()
 	{
 		global $base_url;
 
+		if (!$_SESSION['connect'])
+		{
+			Home::index();
+			exit;
+		}
 		if ($_POST['submit'])
 		{
 			$user_id = $_SESSION['id'];
@@ -42,6 +52,11 @@ class Like
 	{
 		global $base_url;
 
+		if (!$_SESSION['connect'])
+		{
+			Home::index();
+			exit;
+		}
 		if ($_POST['submit'])
 		{
 			$like_id = $_POST['like_id'];
